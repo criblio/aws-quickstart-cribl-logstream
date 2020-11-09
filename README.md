@@ -2,7 +2,7 @@
 > This Quick Start guide was created by [Cribl](https://cribl.io) to help automate the deployment of Cribl LogStream in your AWS environment. These  automated reference deployments use AWS CloudFormation templates to deploy EC2 instances, IAM policies and S3 buckets, following AWS best practices. 
 
 ## Overview 
-Cribl has put together a simple method to launch a CloudFormation template that will automatically create the IAM EC2 role and the proper IAM policy to use with your deployment. We will be breaking down the permissions used, AWS resources deployed and their associated costs. 
+Cribl has put together a simple method to launch a CloudFormation template that will automatically create the IAM EC2 role and the proper IAM policy to use with your deployment. We will be breaking down the permissions used, AWS resources deployed and their associated costs. This process will take under 5 minutes and you will have a running Cribl LogStream instance. 
 
 ## Architecture 
 Deploying this Quick Start with default parameters will build a single EC2 instance within the default VPC and create an S3 bucket that can be used as a source or destination. The EC2 Role with the associated policy will also be created as a part of this CloudFormation template. 
