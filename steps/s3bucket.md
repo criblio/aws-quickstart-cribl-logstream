@@ -3,6 +3,8 @@
 ## Overview of Use Case
 This use case will show you how to setup Cribl LogStream to send data from any source to an S3 bucket. The CloudFormation template from the AWS Marketplace listing automatically creates an S3 bucket with an IAM policy that allows reading from and writing to the bucket. The AWS side of this deployment has already been configured, we only need to setup a route and pipeline in Cribl LogStream to send the data to the bucket.
 
+![Cribl Architecture](https://quickstart-cribl-logstream.s3.amazonaws.com/architecture/Cribl_Data_to_S3.png)
+
 ## Setting up Cribl LogStream
 
 ### Enable Cribl Internal Sources
