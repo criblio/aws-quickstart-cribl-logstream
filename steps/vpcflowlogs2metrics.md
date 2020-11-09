@@ -60,9 +60,10 @@ index | main
 >
 >
 > AWS Tip, make sure you have __port 8088__ added to your security _Inbound Rules_:
+>
 > ![Security Group Check](https://quickstart-cribl-logstream.s3.amazonaws.com/screenshots/lambda/cls-lambda-19.png)
 >
->
+>(EC2 Instance->Click on Security Groups)
 >
 
 
@@ -103,11 +104,11 @@ We are going to create the following components in your AWS Environment:
 
 Key | Value 
 --- | ---
-SPLUNK_HEC_URL | http://cribl_ip:8088/services/collector
+SPLUNK_HEC_URL | http://cribl_instance:8088/services/collector
 SPLUNK_HEC_TOKEN | 11111111
 
 > 
-> Replace cribl_ip with your instance's IP Address
+> Replace cribl_instance with your instance's IP Address
 > 
 > Replace 111111111 with your HEC token
 > 
