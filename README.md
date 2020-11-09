@@ -18,6 +18,69 @@ As shown in Figure 1, the Quick Start CloudFormation template sets up the follow
    * Security Group
    * S3 Bucket
    * IAM Role and Policy
+> IAM Policy Best practices 
+>
+> Per the [Security best practices in IAM](https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html) the policy created by the CloudFormation template creates an EC2 role with the following IAM Policy:
+``` yaml
+iamDefaultRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Sub '${AWS::StackName}-logstream-default-role'
+      Description: Cribl LogStream default IAM role
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - ec2.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      Policies:
+        - PolicyName: S3Destinations
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - s3:PutObject
+                  - s3:GetObject
+                  - s3:ListBucket
+                  - s3:GetBucketLocation
+                Resource:
+                  - !Sub '${s3DefaultDestinationBucket.Arn}'
+                  - !Sub '${s3DefaultDestinationBucket.Arn}/*'
+        - PolicyName: S3Sources
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - s3:GetObject
+                  - s3:GetBucketLocation
+                Resource: '*'
+        - PolicyName: KinesisSources
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - kinesis:Get*
+                  - kinesis:List*
+                  - kinesis:Describe*
+                Resource: '*'
+      Tags:
+        - Key: Name
+          Value: Cribl LogStream default IAM role
+  iamDefaultInstanceProfile:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      Path: /
+      Roles:
+        - !Ref 'iamDefaultRole'
+
+```
+>This IAM Role ties the actions of listing, reading and writing to the specific S3 bucket created during this process. Then this policy is attached to the EC2 instance rather than using Access / Secret keys for authentication. 
 
 ## Cost and licenses
 
