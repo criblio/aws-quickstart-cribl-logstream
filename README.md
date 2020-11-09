@@ -7,7 +7,7 @@ Cribl has put together a simple method to launch a CloudFormation template that 
 ## Architecture 
 Deploying this Quick Start with default parameters will build a single EC2 instance within the default VPC and create an S3 bucket that can be used as a source or destination. The EC2 Role with the associated policy will also be created as a part of this CloudFormation template. 
 
-![Cribl Single Instance Deplyoment](https://s3.amazonaws.com/awsmp-fulfillment-cf-templates-prod/3b6fe56d-7839-4db7-ba0a-7c9d1f6305fb.11a8b5fd-ee00-4308-bdd1-4eb11fa4752d.png)
+![Cribl Single Instance Deplyoment](https://quickstart-cribl-logstream.s3.amazonaws.com/architecture/Cribl_LS_MP_Single_Instance.png)
 
 _Figure 1: Cribl LogStream Single Instance architecture deployment in AWS_
 
@@ -88,7 +88,6 @@ Navigate to http://<cribl_logstream_ip>:9000 and log in using admin / <ec2_insta
 
 - [Send Data to S3 bucket](steps/s3bucket.md)
 - [VPC Flow Logs to Metrics](steps/vpcflowlogs2metrics.md)
-- [Transform Splunk HEC to S2S](steps/splunkhecS2S.md)
 
 ## Feedback
 Please submit feedback, feature ideas or report bugs using the [Issues](https://github.com/amiracle/quick-start-cribl/issues) section of this GitHub repository. If you would like to submit code, please review the Quick Start Contributor's Guide.
