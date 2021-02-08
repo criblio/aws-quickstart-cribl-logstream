@@ -27,7 +27,7 @@ We are going to create the following components in your AWS Environment:
 Click on the following CloudFormation template to create a VPC within your AWS Deployment: https://console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/quickcreate?templateUrl=https%3A%2F%2Fquickstart-cribl-logstream.s3.amazonaws.com/cftemplates/%2Fvpc-flow-create.yaml&stackName=cribl-vpc&param_ClassB=0.
 
 > ## Which path is right for me?
-> If you are new to AWS and just want to collect the VPC Flow Logs without much trouble, use the [Pull Method](/sqs_s3_pull/sqs_s3_pull.md). It is easier to setup and does not require any additional resources (e.g. ELB, lambda functions, etc.). 
+> If you are new to AWS and just want to collect the VPC Flow Logs without much trouble, use the [Pull Method](/sqs_s3_pull/sqs_s3_pull_vpc.md). It is easier to setup and does not require any additional resources (e.g. ELB, lambda functions, etc.). 
 >
 
 >
@@ -51,7 +51,7 @@ Click on the following CloudFormation template to create a VPC within your AWS D
 | -------------------------- | ----------------- |
 | ![Pull from S3](https://quickstart-cribl-logstream.s3.amazonaws.com/architecture/Cribl_LS_S3_SQS_Collection.png) |  ![Push to HTTP](https://quickstart-cribl-logstream.s3.amazonaws.com/architecture/HTTP_to_Cirbl_Log.png) |
 | |
-| [Click Here for Pull Using SQS and S3](/sqs_s3_pull/sqs_s3_pull.md) |  [Click Here for Push Using Lambda](/lambda_push/lambda_push.md)| 
+| [Click Here for Pull Using SQS and S3](/sqs_s3_pull/sqs_s3_pull_vpc.md) |  [Click Here for Push Using Lambda](/lambda_push/lambda_push_vpc.md)| 
 
 ### Optional :  
 ` If you decide later to change how you collect your VPC Flow Logs, you can come back here and select the other path.`
