@@ -51,7 +51,7 @@ Click on the following CloudFormation template to create a VPC within your AWS D
 | -------------------------- | ----------------- |
 | ![Pull from S3](https://quickstart-cribl-logstream.s3.amazonaws.com/architecture/Cribl_LS_S3_SQS_Collection.png) |  ![Push to HTTP](https://quickstart-cribl-logstream.s3.amazonaws.com/architecture/HTTP_to_Cirbl_Log.png) |
 | |
-| [Click Here for Pull Using SQS and S3](/sqs_s3_pull/sqs_s3_pull_vpc.md) |  [Click Here for Push Using Lambda](/lambda_push/lambda_push_vpc.md)| 
+| [Click Here for Pull Using SQS and S3](../sqs_s3_pull/sqs_s3_pull_vpc.md) |  [Click Here for Push Using Lambda](../lambda_push/lambda_push_vpc.md)| 
 
 ### Optional :  
 ` If you decide later to change how you collect your VPC Flow Logs, you can come back here and select the other path.`
