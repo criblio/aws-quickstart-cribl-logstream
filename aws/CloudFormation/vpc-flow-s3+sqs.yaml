@@ -1,0 +1,191 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: 'VPC: Publish flow logs to S3, a cloudonaut.io template'
+Metadata:
+  'AWS::CloudFormation::Interface':
+    ParameterGroups:
+      - Label:
+          default: Parent Stacks
+        Parameters:
+          - ParentVPCStack
+      - Label:
+          default: Flow Logs Parameters
+        Parameters:
+          - ExternalLogBucket
+          - LogFilePrefix
+          - TrafficType
+Parameters:
+  ParentVPCStack:
+    Description: Stack name of parent VPC stack based on vpc/vpc-*azs.yaml template.
+    Type: String
+  ExternalLogBucket:
+    Description: >-
+      Optional The name of an S3 bucket where you want to store flow logs. If
+      you leave this empty, the Amazon S3 bucket is created for you.
+    Type: String
+    Default: ''
+  LogFilePrefix:
+    Description: Optional The log file prefix.
+    Type: String
+    Default: ''
+  TrafficType:
+    Description: The type of traffic to log.
+    Type: String
+    Default: ALL
+    AllowedValues:
+      - ACCEPT
+      - REJECT
+      - ALL
+  SQS:
+    Description: Name of the SQS.
+    Type: String
+    Default: cribl-sqs
+Conditions:
+  InternalBucket: !Equals 
+    - !Ref ExternalLogBucket
+    - ''
+  ExternalBucket: !Not 
+    - !Equals 
+      - !Ref ExternalLogBucket
+      - ''
+  HasLogFilePrefix: !Not 
+    - !Equals 
+      - Ref: LogFilePrefix
+      - ''
+Resources:
+  CriblQueue:
+    Type: 'AWS::SQS::Queue'
+    Properties:
+      QueueName: !Ref SQS
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: 2a66dde5-35bb-4e4d-a712-945d2c57dc08
+  CriblQueuePolicy:
+    Type: 'AWS::SQS::QueuePolicy'
+    Properties:
+      PolicyDocument:
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: s3.amazonaws.com
+            Action:
+              - 'SQS:SendMessage'
+            Resource: !GetAtt CriblQueue.Arn
+            Condition:
+              ArnLike:
+                'aws:SourceArn':
+                  - !GetAtt LogBucket.Arn
+      Queues:
+        - !Ref SQS
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: dd3ce2ad-4b14-4519-9788-3c81d65bc966
+  LogBucket:
+    Condition: InternalBucket
+    Type: 'AWS::S3::Bucket'
+    Properties: {}
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: 806dcc77-753a-4706-97e5-f0501cac74e3
+  LogBucketPolicy:
+    Condition: InternalBucket
+    Type: 'AWS::S3::BucketPolicy'
+    Properties:
+      Bucket: !Ref LogBucket
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Sid: AWSLogDeliveryWrite
+            Effect: Allow
+            Principal:
+              Service: delivery.logs.amazonaws.com
+            Action: 's3:PutObject'
+            Resource: !If 
+              - HasLogFilePrefix
+              - !Sub '${LogBucket.Arn}/${LogFilePrefix}/AWSLogs/${AWS::AccountId}/*'
+              - !Sub '${LogBucket.Arn}/AWSLogs/${AWS::AccountId}/*'
+            Condition:
+              StringEquals:
+                's3:x-amz-acl': bucket-owner-full-control
+          - Sid: AWSLogDeliveryAclCheck
+            Effect: Allow
+            Principal:
+              Service: delivery.logs.amazonaws.com
+            Action: 's3:GetBucketAcl'
+            Resource: !GetAtt LogBucket.Arn
+          - Sid: AllowSSLRequestsOnly
+            Effect: Deny
+            Principal: '*'
+            Action: 's3:*'
+            Resource:
+              - !GetAtt LogBucket.Arn
+              - !Sub '${LogBucket.Arn}/*'
+            Condition:
+              Bool:
+                'aws:SecureTransport': false
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: 5d5b2f42-272c-478b-9a73-f8df38e5d71c
+  FlowLogInternalBucket:
+    Condition: InternalBucket
+    DependsOn: LogBucketPolicy
+    Type: 'AWS::EC2::FlowLog'
+    Properties:
+      LogDestination: !If 
+        - HasLogFilePrefix
+        - !Sub '${LogBucket.Arn}/${LogFilePrefix}/'
+        - !GetAtt LogBucket.Arn
+      LogDestinationType: s3
+      ResourceId:
+        'Fn::ImportValue': !Sub '${ParentVPCStack}-VPC'
+      ResourceType: VPC
+      TrafficType: !Ref TrafficType
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: 6eb53fed-dd10-46db-8857-5811d17ef3ac
+  FlowLogExternalBucket:
+    Condition: ExternalBucket
+    Type: 'AWS::EC2::FlowLog'
+    Properties:
+      LogDestination: !If 
+        - HasLogFilePrefix
+        - !Sub 'arn:aws:s3:::${ExternalLogBucket}/${LogFilePrefix}/'
+        - !Sub 'arn:aws:s3:::${ExternalLogBucket}'
+      LogDestinationType: s3
+      ResourceId:
+        'Fn::ImportValue': !Sub '${ParentVPCStack}-VPC'
+      ResourceType: VPC
+      TrafficType: !Ref TrafficType
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: 13b373c5-e601-46a4-80a0-eb41f7ff4f72
+  # Tried to setup notifications, but they never get applied. Users have to manually add the notification.
+  # NotificationS3:
+  #  Condition: ExternalBucket
+  #  Type: 'AWS::S3::Bucket'
+  #  Properties:
+  #    NotificationConfiguration:
+  #      QueueConfigurations:
+  #        Event: 's3:ObjectCreated:Put'
+  #        Queue: !GetAtt CriblQueue.Arn
+  #      DependsOn: CriblQueuePolicy
+  #  DependsOn:
+  #    - LogBucket
+Outputs:
+  TemplateID:
+    Description: cribl.io template id.
+    Value: sqs_s3_pull/sqs_s3_pull_vpc
+  TemplateVersion:
+    Description: cribl.io SQS S3 VPCFlow to S3 template version.
+    Value: 1.0
+  StackName:
+    Description: Stack name.
+    Value: !Sub '${AWS::StackName}'
+  LogBucketName:
+    Description: Log bucket name.
+    Value: !If 
+      - InternalBucket
+      - !Ref LogBucket
+      - !Ref ExternalLogBucket
+  QueueName:
+    Description: SQS Name
+    Value: !Ref SQS
