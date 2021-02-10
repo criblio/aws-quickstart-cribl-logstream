@@ -17,6 +17,7 @@ Parameters:
   ParentVPCStack:
     Description: Stack name of parent VPC stack based on vpc/vpc-*azs.yaml template.
     Type: String
+    Default: cribl-vpc
   ExternalLogBucket:
     Description: >-
       Optional The name of an S3 bucket where you want to store flow logs. If
@@ -56,9 +57,6 @@ Resources:
     Type: 'AWS::SQS::Queue'
     Properties:
       QueueName: !Ref SQS
-    Metadata:
-      'AWS::CloudFormation::Designer':
-        id: 2a66dde5-35bb-4e4d-a712-945d2c57dc08
   CriblQueuePolicy:
     Type: 'AWS::SQS::QueuePolicy'
     Properties:
@@ -71,21 +69,20 @@ Resources:
               - 'SQS:SendMessage'
             Resource: !GetAtt CriblQueue.Arn
             Condition:
-              ArnLike:
-                'aws:SourceArn':
-                  - !GetAtt LogBucket.Arn
+              StringEquals:
+                'aws:SourceAccount':
+                  - !Ref "AWS::AccountId"
       Queues:
         - !Ref SQS
-    Metadata:
-      'AWS::CloudFormation::Designer':
-        id: dd3ce2ad-4b14-4519-9788-3c81d65bc966
   LogBucket:
     Condition: InternalBucket
     Type: 'AWS::S3::Bucket'
-    Properties: {}
-    Metadata:
-      'AWS::CloudFormation::Designer':
-        id: 806dcc77-753a-4706-97e5-f0501cac74e3
+    Properties:
+      NotificationConfiguration:
+        QueueConfigurations:
+          - Event: 's3:ObjectCreated:Put'
+            Queue: !GetAtt CriblQueue.Arn
+    DependsOn: CriblQueuePolicy
   LogBucketPolicy:
     Condition: InternalBucket
     Type: 'AWS::S3::BucketPolicy'
@@ -122,12 +119,9 @@ Resources:
             Condition:
               Bool:
                 'aws:SecureTransport': false
-    Metadata:
-      'AWS::CloudFormation::Designer':
-        id: 5d5b2f42-272c-478b-9a73-f8df38e5d71c
   FlowLogInternalBucket:
     Condition: InternalBucket
-    DependsOn: LogBucketPolicy
+  # DependsOn: LogBucketPolicy
     Type: 'AWS::EC2::FlowLog'
     Properties:
       LogDestination: !If 
@@ -139,11 +133,9 @@ Resources:
         'Fn::ImportValue': !Sub '${ParentVPCStack}-VPC'
       ResourceType: VPC
       TrafficType: !Ref TrafficType
-    Metadata:
-      'AWS::CloudFormation::Designer':
-        id: 6eb53fed-dd10-46db-8857-5811d17ef3ac
   FlowLogExternalBucket:
     Condition: ExternalBucket
+    # DependsOn: LogBucketPolicy
     Type: 'AWS::EC2::FlowLog'
     Properties:
       LogDestination: !If 
@@ -154,22 +146,7 @@ Resources:
       ResourceId:
         'Fn::ImportValue': !Sub '${ParentVPCStack}-VPC'
       ResourceType: VPC
-      TrafficType: !Ref TrafficType
-    Metadata:
-      'AWS::CloudFormation::Designer':
-        id: 13b373c5-e601-46a4-80a0-eb41f7ff4f72
-  # Tried to setup notifications, but they never get applied. Users have to manually add the notification.
-  # NotificationS3:
-  #  Condition: ExternalBucket
-  #  Type: 'AWS::S3::Bucket'
-  #  Properties:
-  #    NotificationConfiguration:
-  #      QueueConfigurations:
-  #        Event: 's3:ObjectCreated:Put'
-  #        Queue: !GetAtt CriblQueue.Arn
-  #      DependsOn: CriblQueuePolicy
-  #  DependsOn:
-  #    - LogBucket
+      TrafficType: !Ref TrafficType          
 Outputs:
   TemplateID:
     Description: cribl.io template id.
@@ -189,3 +166,6 @@ Outputs:
   QueueName:
     Description: SQS Name
     Value: !Ref SQS
+  QueueArn:
+    Description: SQS Queue ARN
+    Value: !GetAtt CriblQueue.Arn
