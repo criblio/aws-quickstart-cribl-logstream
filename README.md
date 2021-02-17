@@ -79,8 +79,10 @@ iamDefaultWorkerRole:
             Statement:
               - Effect: Allow
                 Action: 
-                  - sqs:List*
-                  - sqs:Get*
+                  - sqs:ReceiveMessage
+                  - sqs:DeleteMessage
+                  - sqs:GetQueueAttributes
+                  - sqs:GetQueueUrl
                 Resource: '*'
       Tags:
         - Key: Name
