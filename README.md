@@ -73,6 +73,15 @@ iamDefaultWorkerRole:
                   - kinesis:List*
                   - kinesis:Describe*
                 Resource: '*'
+        - PolicyName: SQSSources
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action: 
+                  - sqs:List*
+                  - sqs:Get*
+                Resource: '*'
       Tags:
         - Key: Name
           Value: Cribl LogStream default IAM role
@@ -105,23 +114,26 @@ If you don't already have an AWS Account, create one at https://aws.amazon.com a
 
 ## Deployment options
 This Quick Start provides two options:
-- [Cribl LogStream Single Instance](https://aws.amazon.com/marketplace/pp/B08BRGFJK1?qid=1604503537874&sr=0-1&ref_=srh_res_product_title) 
-   - This will deploy a single EC2 instance and configure the AWS services and resources listed above. We will be using this deployment for our quick start guide. This is great for development or testing purposes. 
 - [Cribl LogStream Distributed](https://aws.amazon.com/marketplace/pp/B08CRVQWCJ?qid=1604503537874&sr=0-2&ref_=srh_res_product_title) 
    - This will be the deployment used in this Quick Start. It will deploy one master node and however many worker nodes you want to use. It's recommended you deploy at least 2 worker nodes.  
+
+- [Cribl LogStream Single Instance](https://aws.amazon.com/marketplace/pp/B08BRGFJK1?qid=1604503537874&sr=0-1&ref_=srh_res_product_title) 
+   - This will deploy a single EC2 instance and configure the AWS services and resources listed above. We will be using this deployment for our quick start guide. This is great for development or testing purposes. 
 
 ## Deployment Steps
 1. Sign into your AWS Account.
 
-2. Navigate to [Cribl LogStream Distributed](https://aws.amazon.com/marketplace/pp/B08CRVQWCJ?qid=1604503537874&sr=0-2&ref_=srh_res_product_title) and then click on "Continue to Subscribe." 
+2. If you have an existing AWS environment, then move on to step 3, however if you are building from a net-new environment, use these [CloudFormation templates for your foundation](steps/aws_foundation.md).
 
-3. Subscribe to the software and accept the Terms and Conditions. Then click on the "Continue to Configuration." 
+3. Deploy Cribl LogStream Distributed using the Marketplace offering : [Cribl LogStream Distributed](https://aws.amazon.com/marketplace/pp/B08CRVQWCJ?qid=1604503537874&sr=0-2&ref_=srh_res_product_title) and then click on "Continue to Subscribe." 
 
-4. Configure your deployment, selecting your Deliver Method, Software Version and Region. Click "Continue to Launch."
+4. Subscribe to the software and accept the Terms and Conditions. Then click on the "Continue to Configuration." 
 
-5. Launch this software using "Launch CloudFormation" in the drop down, then click "Launch". 
+5. Configure your deployment, selecting your Deliver Method, Software Version and Region. Click "Continue to Launch."
 
-6. Log into Cribl LogStream with the credential supplied in the "Outputs" tab on your CloudFormation stack.
+6. Launch this software using "Launch CloudFormation" in the drop down, then click "Launch". 
+
+7. Log into Cribl LogStream with the credential supplied in the "Outputs" tab on your CloudFormation stack.
    
 ### CloudFormation Steps
 
