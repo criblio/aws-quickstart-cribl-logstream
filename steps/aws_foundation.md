@@ -19,4 +19,4 @@ Before you can deploy any EC2 instances, you will need to deploy a VPC or [Virtu
 
 ### Setup Cribl LogStream Distributed
 
-- [Follow these steps to setup Cribl LogStream via the AWS Marketplace](steps/mp/cls-mp.md)
+- [Follow these steps to setup Cribl LogStream via the AWS Marketplace](https://github.com/criblio/aws-quickstart-cribl-logstream#deployment-steps)
