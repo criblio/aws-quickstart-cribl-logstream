@@ -172,6 +172,10 @@ Navigate to http://<cribl_logstream_ip>:9000 and log in using admin / <ec2_insta
 ## Feedback
 Please submit feedback, feature ideas or report bugs using the [Issues](https://github.com/amiracle/quick-start-cribl/issues) section of this GitHub repository. If you would like to submit code, please review the Quick Start Contributor's Guide.
 
+## Remove Deployment
+
+Once you have tested this deployment and would like to remove these artifacts from your deployment, simply remove / delete the CloudFormation template starting with the `cribl-cloudtrail-sqs-s3`, `cribl-vpc-sqs-s3`, then `cribl-distributed`. You will probably need to remove S3 buckets manually. First empty the buckets and then delete them.
+
 ## Additional resources
 
 ### Cribl Resources
