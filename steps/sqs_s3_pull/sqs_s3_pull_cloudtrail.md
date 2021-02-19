@@ -1,8 +1,5 @@
 # Collecting CloudTrail Data from S3 buckets using Cribl LogStream
-In this section we are going to setup CloudTrail to send data into an S3 bucket and configure the S3 bucket to send an event to SQS whenever CloudTrail puts data into the S3 bucket. This will trigger Cribl LogStream workers to pull the events and send them into your logging solution of choice. Let's get started.
-
-## Setup CloudTrail to Send to an S3 Bucket
-This quick link will enable a new CloudTrail (cribl-cloudtrail-sqs-s3-Trail-<uniqueID>), create an S3 bucket where the CloudTrail events will land. An SQS will also be created with the appropriate policy to allow events from S3 to be sent into this SQS: https://console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/quickcreate?templateUrl=https%3A%2F%2Fquickstart-cribl-logstream.s3.amazonaws.com%2Fcftemplates%2Fcloudtrail-s3%252Bsqs.yaml&stackName=cribl-cloudtrail-sqs-s3&param_CloudWatchLogsRetentionInDays=7&param_ExternalTrailBucket=&param_LogFilePrefix=&param_ParentAlertStack=&param_PermissionsBoundary=&param_S3DataEvents=true&param_SQS=cribl-sqs-cloudtrail 
+In this section we are going to setup Cribl LogStream to collect the CloudTrail data from the S3 bucket we just created by listening to the SQS notifications.
 
 ### Cribl LogStream Setup
 
@@ -39,11 +36,19 @@ These steps will setup Cribl LogStream to collect the CloudTrail logs from the S
 
 - Click `Yes`
 
+![Cribl Sources](https://quickstart-cribl-logstream.s3.amazonaws.com/screenshots/s3bucket/cloudtrail/sqs-s3-cls-ct-13.png)
+
+- Click `Live` under Status for the `cloudtrail` source
+
+![Cribl Sources](https://quickstart-cribl-logstream.s3.amazonaws.com/screenshots/s3bucket/cloudtrail/sqs-s3-cls-ct-11.png)
+
+- Note the status of your worker nodes
+- Click on `Live Data`
+
 ![Cribl Sources](https://quickstart-cribl-logstream.s3.amazonaws.com/screenshots/s3bucket/cloudtrail/sqs-s3-cls-ct-06.png)
 
-- Click `Live`
-- Navigate to `Live Data`
 - Click `Capture`
+- Scroll Down
 
 ![Cribl Sources](https://quickstart-cribl-logstream.s3.amazonaws.com/screenshots/s3bucket/cloudtrail/sqs-s3-cls-ct-07.png)
 
@@ -62,7 +67,6 @@ Data can be collected for a sample file:
 - Name the pipeline `cloudtrail`
 - Description: `Collect CloudTrail Data from AWS`
 - Click `Save`
-
 
 ![Cribl Sources](https://quickstart-cribl-logstream.s3.amazonaws.com/screenshots/s3bucket/cloudtrail/sqs-s3-cls-ct-10.png)
 

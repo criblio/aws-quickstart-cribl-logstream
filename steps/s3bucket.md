@@ -5,134 +5,92 @@ This use case will show you how to setup Cribl LogStream to send data from any s
 
 ![Cribl Architecture](https://quickstart-cribl-logstream.s3.amazonaws.com/architecture/Cribl_Data_to_S3.png)
 
-## Setting up Cribl LogStream
+## Enabling up Cribl LogStream Data
+
+### Validate S3 Destination 
+
+![Cribl Sources Screen](https://quickstart-cribl-logstream.s3.amazonaws.com/screenshots/s3bucket/s3dest/s3-dest-01.png)
+
+- Click on 
+    - Click on `Default Group`
+        - Click on `Data` -> `Destinations`
+        - Click on `Amazon S3`
+- See pre-configured destination `S3 bucket`
+
+![Cribl Sources Screen](https://quickstart-cribl-logstream.s3.amazonaws.com/screenshots/s3bucket/s3dest/s3-dest-02.png)
 
 ### Enable Cribl Internal Sources
 
-- Log into your Cribl LogStream instance by going to  http://cribl_ip:9000/inputs where cribl_ip is your instance ip.
- 
-![Cribl Start Screen](https://quickstart-cribl-logstream.s3.amazonaws.com/screenshots/s3bucket/1-clsmp-s3.png)
-_Figure 1. Initial Login Screen for Cribl LogStream__
+- Click on `Data`
+    - Click `Sources`
 
-- Click on Data in the toolbar and select Sources:
+![Cribl Sources Screen](https://quickstart-cribl-logstream.s3.amazonaws.com/screenshots/s3bucket/s3dest/s3-dest-03.png)
 
-![Cribl Sources Screen](https://quickstart-cribl-logstream.s3.amazonaws.com/screenshots/s3bucket/2-clsmp-s3.png)
+- Click on `Cribl Internal`
 
-- Click on the __Cribl Internal__ Data Source
+![Cribl Sources Screen](https://quickstart-cribl-logstream.s3.amazonaws.com/screenshots/s3bucket/s3dest/s3-dest-04.png)
 
-![Cribil Interal Source Screen](https://quickstart-cribl-logstream.s3.amazonaws.com/screenshots/s3bucket/3-clsmp-s3.png)
+- Enable `CriblLogs`
 
-- Turn on the CriblLogs source by enabling the source:
+![Cribl Sources Screen](https://quickstart-cribl-logstream.s3.amazonaws.com/screenshots/s3bucket/s3dest/s3-dest-05.png)
 
-- Disabled : 
+![Cribl Sources Screen](https://quickstart-cribl-logstream.s3.amazonaws.com/screenshots/s3bucket/s3dest/s3-dest-06.png)
 
-![Cribl Off Source](https://quickstart-cribl-logstream.s3.amazonaws.com/screenshots/s3bucket/4-clsmp-s3.png) 
+- Click `Commit default`
 
-- Enabled : 
+![Cribl Sources Screen](https://quickstart-cribl-logstream.s3.amazonaws.com/screenshots/s3bucket/s3dest/s3-dest-07.png)
 
- ![Cribl On Source](https://quickstart-cribl-logstream.s3.amazonaws.com/screenshots/s3bucket/5-clsmp-s3.png)
+- Click `Commit`
 
-    - Click Save
+![Cribl Sources Screen](https://quickstart-cribl-logstream.s3.amazonaws.com/screenshots/s3bucket/s3dest/s3-dest-08.png)
 
-### Enable S3 Destination 
+- Click `Deploy default`
 
-- Click on the S3 Destination
+![Cribl Sources Screen](https://quickstart-cribl-logstream.s3.amazonaws.com/screenshots/s3bucket/s3dest/s3-dest-10.png)
 
-![S3 Destination](https://quickstart-cribl-logstream.s3.amazonaws.com/screenshots/s3bucket/6-clsmp-s3.png)
+- Click `Yes`
 
-- By default, you should see a _default-s3_ location. This was created by the CloudFormation template.
+![Cribl Sources Screen](https://quickstart-cribl-logstream.s3.amazonaws.com/screenshots/s3bucket/s3dest/s3-dest-11.png)
 
-![Default S3 Destination](https://quickstart-cribl-logstream.s3.amazonaws.com/screenshots/s3bucket/7-clsmp-s3.png)
+- Click on the `Copy to clipboard` function (save it for the next steps)
 
-> Optional Step:
-> 
-> You can modify the settings for your S3 Destination to include sending the data in as _raw_ and enabling compression to _gzip_ . 
-> ![Example Settings for S3](https://quickstart-cribl-logstream.s3.amazonaws.com/screenshots/s3bucket/8-clsmp-s3.png)
->
-> Just click save when you're done modifying the Destination.
+### Create Route
 
-### Create Pipeline
+![Cribl Sources Screen](https://quickstart-cribl-logstream.s3.amazonaws.com/screenshots/s3bucket/s3dest/s3-dest-12.png)
 
-- Click on Pipelines from the top menu bar:
+- Click `Add Route`
 
-![Pipeline Menu](https://quickstart-cribl-logstream.s3.amazonaws.com/screenshots/s3bucket/9-clsmp-s3.png)
 
-- Click on __Add Pipeline__ and then _Create Pipeline_
+![Cribl Sources Screen](https://quickstart-cribl-logstream.s3.amazonaws.com/screenshots/s3bucket/s3dest/s3-dest-13.png)
 
-![Create Pipeline](https://quickstart-cribl-logstream.s3.amazonaws.com/screenshots/s3bucket/10-clsmp-s3.png)
+- Route Name: `Cribl Logs to S3`
+- Filter: paste from clipboard `__inputId=='cribl:CriblLogs`
+- Pipeline: `passthru`
+- Output: `s3:s3:default`
+- Description: `Send Cribl Logs to S3 bucket`
 
-- Create your Pipeline with these settings: 
+![Cribl Sources Screen](https://quickstart-cribl-logstream.s3.amazonaws.com/screenshots/s3bucket/s3dest/s3-dest-14.png)
 
-![Pipeline Settings](https://quickstart-cribl-logstream.s3.amazonaws.com/screenshots/s3bucket/11-clsmp-s3.png)
+- Move this route above the `default` route. Just click and drag into position.
 
-- Create an __EVAL__ function:
+![Cribl Sources Screen](https://quickstart-cribl-logstream.s3.amazonaws.com/screenshots/s3bucket/s3dest/s3-dest-15.png)
 
-![Pipeline Settings](https://quickstart-cribl-logstream.s3.amazonaws.com/screenshots/s3bucket/12-clsmp-s3.png)
+- Click `Save`
+- Click `Commit default`
 
-- Set the function filter to _true_ and click save.
+![Cribl Sources Screen](https://quickstart-cribl-logstream.s3.amazonaws.com/screenshots/s3bucket/s3dest/s3-dest-16.png)
 
-![Pipeline Settings](https://quickstart-cribl-logstream.s3.amazonaws.com/screenshots/s3bucket/13-clsmp-s3.png)
+- Click `Commit`
 
-- Now let's take a sample of the events:
+![Cribl Sources Screen](https://quickstart-cribl-logstream.s3.amazonaws.com/screenshots/s3bucket/s3dest/s3-dest-17.png)
 
-![Pipeline Settings](https://quickstart-cribl-logstream.s3.amazonaws.com/screenshots/s3bucket/14-clsmp-s3.png)
+- Click `Deploy default`
 
-- Click Capture and see the results: 
 
-![Pipeline Settings](https://quickstart-cribl-logstream.s3.amazonaws.com/screenshots/s3bucket/15-clsmp-s3.png)
+![Cribl Sources Screen](https://quickstart-cribl-logstream.s3.amazonaws.com/screenshots/s3bucket/s3dest/s3-dest-18.png)
 
-- Save the sample events as a Sample File
+- Click `Yes`
 
-![Pipeline Settings](https://quickstart-cribl-logstream.s3.amazonaws.com/screenshots/s3bucket/16-clsmp-s3.png)
+![Cribl Sources Screen](https://quickstart-cribl-logstream.s3.amazonaws.com/screenshots/s3bucket/s3dest/s3-dest-19.png)
 
-- Review your Pipeline page, it should look like this. If so, you're ready to move on to create a __Route__
-
-![Pipeline Settings](https://quickstart-cribl-logstream.s3.amazonaws.com/screenshots/s3bucket/17-clsmp-s3.png)
-
-### Create and attach a Route
-
-- Click on __Add Route__ 
-
-![Pipeline Settings](https://quickstart-cribl-logstream.s3.amazonaws.com/screenshots/s3bucket/18-clsmp-s3.png)
-
-- Add the details for the __Route__ and click _Save_
-
-![Pipeline Settings](https://quickstart-cribl-logstream.s3.amazonaws.com/screenshots/s3bucket/19-clsmp-s3.png)
-
-### Now lets check the monitoring screen
-
-- Click on the __Monitoring__ link in the toolbar
-
-![Pipeline Settings](https://quickstart-cribl-logstream.s3.amazonaws.com/screenshots/s3bucket/20-clsmp-s3.png)
-
-- Click on _Sources_ and see that the sources are sending data.
-
-![Pipeline Settings](https://quickstart-cribl-logstream.s3.amazonaws.com/screenshots/s3bucket/21-clsmp-s3.png)
-
-- Click on _Routes_ and see that the routes are seeing events.
-
-![Pipeline Settings](https://quickstart-cribl-logstream.s3.amazonaws.com/screenshots/s3bucket/22-clsmp-s3.png)
-
-- Click on _Pipelines_ and oyu can see the data going through the pipelines.
-
-![Pipeline Settings](https://quickstart-cribl-logstream.s3.amazonaws.com/screenshots/s3bucket/23-clsmp-s3.png)
-
-- Click on _Destinations_ to see the data landing in the S3 bucket.
-
-![Pipeline Settings](https://quickstart-cribl-logstream.s3.amazonaws.com/screenshots/s3bucket/24-clsmp-s3.png)
-
-- Click on the _Live_ button to see the __Status__ of the data flowing through the S3 Destination.
-
-![Pipeline Settings](https://quickstart-cribl-logstream.s3.amazonaws.com/screenshots/s3bucket/25-clsmp-s3.png)
-
-- Click on _Live Data_ and you can see the data streaming through.
-
-![Pipeline Settings](https://quickstart-cribl-logstream.s3.amazonaws.com/screenshots/s3bucket/26-clsmp-s3.png)
-
-- Click on _Logs_ and you can see if there are any errors with this destination. 
-
-![Pipeline Settings](https://quickstart-cribl-logstream.s3.amazonaws.com/screenshots/s3bucket/27-clsmp-s3.png)
-
-- Finally log into your AWS environment and check out the S3 bucket, there should be events landing in your S3 bucket.
-
-![Pipeline Settings](https://quickstart-cribl-logstream.s3.amazonaws.com/screenshots/s3bucket/28-clsmp-s3.png)
+- Click the S3 bucket and see the events flowing.
