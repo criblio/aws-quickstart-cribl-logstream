@@ -8,9 +8,14 @@ Before you can deploy any EC2 instances, you will need to deploy a VPC or [Virtu
 
 - Click on this VPC Creation Cloudformation Template : https://console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/quickcreate?templateUrl=https%3A%2F%2Fquickstart-cribl-logstream.s3.amazonaws.com/cftemplates/%2Fvpc-flow-create.yaml&stackName=cribl-vpc&param_ClassB=0
 
-### Create an EC2 Keypair 
+### Create an EC2 Key pair 
 
-- Follow these steps to create an EC2 Keypair to SSH into your ec2 hosts:
+- Log into the EC2 Service Page
+- Go to "Key Pairs" from the menu on the left side
+- Click "Create key pair
+- Give your key pair a name
+- The pem will be downloaded, move it to your ssh folder and secure it (e.g. linux/mac `chmod 400 mykeypair.pem`)
+
 
 ### Setup Cribl LogStream Distributed
 
