@@ -2,7 +2,8 @@
 
 
 ## Overview of Use Case
-This use case is to get CloudTrail logs into your system of record. We will go over some tips to help reduce the volume of these events by removing redundant or `null` values. 
+This use case is to get CloudTrail logs into your system of record. We will go over some tips to help reduce the volume of these events by removing redundant or `null` values and other events that take up significant space while not giving any value. In this blog post [Helping Threat Hunters While Staying Compliant: Categorizing and Scoring AWS CloudTrail Events in Real-Time](https://cribl.io/blog/threat-hunting-while-staying-compliant-categorizing-and-scoring-aws-cloudtrail-events-in-real-time/), we will go into detail on how to help reduce the amount of redundant and high volume, low value data from CloudTrail logs.
+
 
 ### AWS Setup Overview
 We are going to create the following components in your AWS Environment:
