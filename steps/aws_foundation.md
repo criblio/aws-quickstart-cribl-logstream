@@ -16,7 +16,14 @@ Before you can deploy any EC2 instances, you will need to deploy a VPC or [Virtu
 - Give your key pair a name
 - The pem will be downloaded, move it to your ssh folder and secure it (e.g. linux/mac `chmod 400 mykeypair.pem`)
 
+### Setup VPC Flow Logs
+
+[Setup VPC Flow Logs and S3 collction](steps/vpcflowlogs2metrics.md)
+
+### Setup CloudTrail Logs
+
+[Setup CloudTrail Logs and S3 collection](steps/cloudtrail.md)
 
 ### Setup Cribl LogStream Distributed
 
-- [Follow these steps to setup Cribl LogStream via the AWS Marketplace](https://github.com/criblio/aws-quickstart-cribl-logstream#deployment-steps)
+[Follow these steps to setup Cribl LogStream via the AWS Marketplace](https://github.com/criblio/aws-quickstart-cribl-logstream#deployment-steps)
