@@ -1,11 +1,6 @@
 # Pull Events from SQS and S3 with Cribl LogStream (VPC Flow Logs)
 After deploying our Cribl LogStream Distributed deployment, we are going to setup VPC Flow Logs and send them into an S3 bucket. That S3 bucket will trigger an SQS event anytime VPC Flow Logs PUT data into the S3 bucket. Cribl LogStream will pickup the events and send them into your logging solution of choice.
 
-## Setup VPC Flow Logs to Send events into an S3 bucket
-Once your VPC has been created, can click here and it will send the VPC Flow logs into an S3 bucket that you specify : https://console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/quickcreate?templateUrl=https%3A%2F%2Fquickstart-cribl-logstream.s3.amazonaws.com%2Fcftemplates%2Fvpc-flow-s3%252Bsqs.yaml&stackName=cribl-vpc-sqs-s3&param_ExternalLogBucket=&param_LogFilePrefix=&param_ParentVPCStack=cribl-vpc&param_SQS=cribl-sqs&param_TrafficType=ALL
-
-> This CloudFormation Template will continue where the first CloudFormation template used to create the initial VPC left off and will enable VPC Flow Logs and have them write to an S3 bucket. The S3 bucket will have events enabled to trigger an SQS which will be used by Cribl LogStream to pull VPC Flow data.
-
 ## Cribl LogStream Setup - S3 Source
 
 ![Cribl Sources](https://quickstart-cribl-logstream.s3.amazonaws.com/screenshots/s3bucket/vpcflow/sqs-s3-cls-01.png)
