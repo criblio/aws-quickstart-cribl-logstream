@@ -70,4 +70,30 @@ Data can be collected for a sample file:
 
 ![Cribl Sources](https://quickstart-cribl-logstream.s3.amazonaws.com/screenshots/s3bucket/cloudtrail/sqs-s3-cls-ct-10.png)
 
+- Add function : `parser`
+- Description: `Break out CloudTrail Data`
+- Filter: `True`
+- Operation Mode* : `Extract`
+- Type*: `JSON Object`
+- Source Field: `_raw`
+- Destination Field: `_raw`
+- Fields to Remove: `previousDigestSignature` `previousDigestHashValue` `*.responseElements.credentials.sessionToken` 
+
+![Cribl Sources](https://quickstart-cribl-logstream.s3.amazonaws.com/screenshots/s3bucket/cloudtrail/sqs-s3-cls-ct-14.png)
+
+- Add function: `Drop`
+- Filter: `/(^Describe|^List|^Get)/.test(eventName)`
+
+![Cribl Sources](https://quickstart-cribl-logstream.s3.amazonaws.com/screenshots/s3bucket/cloudtrail/sqs-s3-cls-ct-15.png)
+
+
+- Click `Save` 
+- Click on `Basic Statistics` to see the estimated reduction in volume:
+
+![Cribl Sources](https://quickstart-cribl-logstream.s3.amazonaws.com/screenshots/s3bucket/cloudtrail/sqs-s3-cls-ct-16.png)
+
+- Click on `Commit default` and `Deploy default` to deploy your changes. 
+
 - Click on `Routes` to start sending your data into your log aggregation tool.
+
+![Cribl Sources](https://quickstart-cribl-logstream.s3.amazonaws.com/screenshots/s3bucket/cloudtrail/sqs-s3-cls-ct-17.png)
