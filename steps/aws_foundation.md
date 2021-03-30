@@ -18,11 +18,11 @@ Before you can deploy any EC2 instances, you will need to deploy a VPC or [Virtu
 
 ### Setup VPC Flow Logs
 
-[Setup VPC Flow Logs and S3 collction](steps/vpcflowlogs2metrics.md)
+[Setup VPC Flow Logs and S3 collction](vpcflowlogs2metrics.md)
 
 ### Setup CloudTrail Logs
 
-[Setup CloudTrail Logs and S3 collection](steps/cloudtrail.md)
+[Setup CloudTrail Logs and S3 collection](cloudtrail.md)
 
 ### Setup Cribl LogStream Distributed
 
