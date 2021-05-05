@@ -94,7 +94,7 @@ iamDefaultWorkerRole:
       Roles:
         - !Ref 'iamDefaultWorkerRole'
 ```
-Here is the link to the entire CloudFormation Template: [CloudFormation Template](https://cribl-marketplace-public-artifacts-us-east-1.s3.amazonaws.com/logstream/2.3.4/distributed/template/distributed-template.yaml)
+Here is the link to the entire CloudFormation Template: [CloudFormation Template](https://cribl-marketplace-public-artifacts-us-west-2.s3-us-west-2.amazonaws.com/logstream/2.4.5/free/distributed/template/template.yaml)
 
 >This IAM Role ties the actions of listing, reading and writing to the specific S3 bucket created during this process. Then this policy is attached to the EC2 Worker instance rather than using Access / Secret keys for authentication. 
 
@@ -168,6 +168,7 @@ Navigate to http://<cribl_logstream_ip>:9000 and log in using admin / <ec2_insta
 - [Send Data to S3 bucket](steps/s3bucket.md)
 - [VPC Flow Logs to Metrics](steps/vpcflowlogs2metrics.md)
 - [CloudTrail Collection](/steps/cloudtrail.md)
+- [CloudWatch Metric Collection](/steps/cloudwatchmetrics.md)
 
 ## Feedback
 Please submit feedback, feature ideas or report bugs using the [Issues](https://github.com/amiracle/quick-start-cribl/issues) section of this GitHub repository. If you would like to submit code, please review the Quick Start Contributor's Guide.
