@@ -65,13 +65,13 @@ Data can be collected for a sample file:
 - Click on `Add Pipeline`
     - Click on `Create Pipeline`
 
-![Cribl Sources](https://quickstart-cribl-logstream.s3.amazonaws.com/screenshots/s3bucket/cw-metrics/sqs-s3-cwm-10.png)
+![Cribl Sources](https://quickstart-cribl-logstream.s3.amazonaws.com/screenshots/s3bucket/cw-metrics/sqs-s3-cwm-10v2.png)
 
 - Name the pipeline `cloudwatch_metrics`
 - Description: `Collect CloudWatch Streaming Metrics`
 - Click `Save`
 
-![Cribl Sources](https://quickstart-cribl-logstream.s3.amazonaws.com/screenshots/s3bucket/cw-metrics/sqs-s3-cwm-11.png)
+![Cribl Sources](https://quickstart-cribl-logstream.s3.amazonaws.com/screenshots/s3bucket/cw-metrics/sqs-s3-cwm-11v2.png)
 
 Now you have a pipeline ready to add functions.
 
@@ -85,7 +85,7 @@ Now you have a pipeline ready to add functions.
 - Source Field: `_raw`
 - List of Fields : `account_id` `dimensions_` `metric_name` `metric_stream_name` `namespace` `region` `value_` `timestamp` 
 
-![Cribl Sources](https://quickstart-cribl-logstream.s3.amazonaws.com/screenshots/s3bucket/cw-metrics/sqs-s3-cwm-17.png)
+![Cribl Sources](https://quickstart-cribl-logstream.s3.amazonaws.com/screenshots/s3bucket/cw-metrics/sqs-s3-cwm-17v2.png)
 
 - Add function: `Publish Metrics`
 - Filter: `true`
@@ -101,37 +101,37 @@ value.sum   |  \`aws.${namespace}.sum\`
 - Add Dimensions:
 `region` `account_id` `dimensions_*` `unit`
 
-![Cribl Sources](https://quickstart-cribl-logstream.s3.amazonaws.com/screenshots/s3bucket/cw-metrics/sqs-s3-cwm-14.png)
+![Cribl Sources](https://quickstart-cribl-logstream.s3.amazonaws.com/screenshots/s3bucket/cw-metrics/sqs-s3-cwm-14v2.png)
 
 
 - Add Function `Eval`
 
-![Cribl Sources](https://quickstart-cribl-logstream.s3.amazonaws.com/screenshots/s3bucket/cw-metrics/sqs-s3-cwm-15.png)
+![Cribl Sources](https://quickstart-cribl-logstream.s3.amazonaws.com/screenshots/s3bucket/cw-metrics/sqs-s3-cwm-15v2.png)
 
 - Filter: `true`
 - Evaluate Fields: 
     - Name: `index`
     - Value Expression: `'metrics'`
 
-![Cribl Sources](https://quickstart-cribl-logstream.s3.amazonaws.com/screenshots/s3bucket/cw-metrics/sqs-s3-cwm-16.png)
+![Cribl Sources](https://quickstart-cribl-logstream.s3.amazonaws.com/screenshots/s3bucket/cw-metrics/sqs-s3-cwm-16v2.png)
 
 - Click `Save`
 
 - Now lets validate that the data is being extracted. Select your data captured and let's apply the pipeline. On the right side, click on the "Preview Simple" and select your data capture file.
 
-![Cribl Sources](https://quickstart-cribl-logstream.s3.amazonaws.com/screenshots/s3bucket/cw-metrics/sqs-s3-cwm-18.png)
+![Cribl Sources](https://quickstart-cribl-logstream.s3.amazonaws.com/screenshots/s3bucket/cw-metrics/sqs-s3-cwm-18v2.png)
 
 Click on the `Out` box and you should see the fields highlighted. 
 
-![Cribl Sources](https://quickstart-cribl-logstream.s3.amazonaws.com/screenshots/s3bucket/cw-metrics/sqs-s3-cwm-19.png)
+![Cribl Sources](https://quickstart-cribl-logstream.s3.amazonaws.com/screenshots/s3bucket/cw-metrics/sqs-s3-cwm-19v2.png)
 
 Click on the gear and click on `Show Internal Fields`
 
 (Before)
-![Cribl Sources](https://quickstart-cribl-logstream.s3.amazonaws.com/screenshots/s3bucket/cw-metrics/sqs-s3-cwm-20.png)
+![Cribl Sources](https://quickstart-cribl-logstream.s3.amazonaws.com/screenshots/s3bucket/cw-metrics/sqs-s3-cwm-20v2.png)
 
 (After)
-![Cribl Sources](https://quickstart-cribl-logstream.s3.amazonaws.com/screenshots/s3bucket/cw-metrics/sqs-s3-cwm-21.png)
+![Cribl Sources](https://quickstart-cribl-logstream.s3.amazonaws.com/screenshots/s3bucket/cw-metrics/sqs-s3-cwm-21v2.png)
 
 Now you can expand the internal fields to validate that all the data is being properly parsed.
 
@@ -140,11 +140,11 @@ Finally Click on `Routes` and create a route `Send Metrics to Splunk`
 - Pipeline: `cloudwatch_metrics`
 - Output: `splunk:splunk` (or your metric store destination)
 
-![Cribl Sources](https://quickstart-cribl-logstream.s3.amazonaws.com/screenshots/s3bucket/cw-metrics/sqs-s3-cwm-24.png)
+![Cribl Sources](https://quickstart-cribl-logstream.s3.amazonaws.com/screenshots/s3bucket/cw-metrics/sqs-s3-cwm-24v2.png)
 
 - Click on `Commit default` and `Deploy default` to deploy your changes. 
 
 You should start to see your metrics in your dashboard of choice:
 
-![Cribl Sources](https://quickstart-cribl-logstream.s3.amazonaws.com/screenshots/s3bucket/cw-metrics/sqs-s3-cwm-23.png)
+![Cribl Sources](https://quickstart-cribl-logstream.s3.amazonaws.com/screenshots/s3bucket/cw-metrics/sqs-s3-cwm-23v2.png)
 
