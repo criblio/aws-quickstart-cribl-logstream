@@ -147,3 +147,4 @@ Finally Click on `Routes` and create a route `Send Metrics to Splunk`
 You should start to see your metrics in your dashboard of choice:
 
 ![Cribl Sources](https://quickstart-cribl-logstream.s3.amazonaws.com/screenshots/s3bucket/cw-metrics/sqs-s3-cwm-23.png)
+
