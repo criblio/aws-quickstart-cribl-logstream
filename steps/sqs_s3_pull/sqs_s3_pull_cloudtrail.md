@@ -76,7 +76,6 @@ Data can be collected for a sample file:
 - Operation Mode* : `Extract`
 - Type*: `JSON Object`
 - Source Field: `_raw`
-- Destination Field: `_raw`
 - Fields to Remove: `previousDigestSignature` `previousDigestHashValue` `*.responseElements.credentials.sessionToken` 
 
 ![Cribl Sources](https://quickstart-cribl-logstream.s3.amazonaws.com/screenshots/s3bucket/cloudtrail/sqs-s3-cls-ct-14.png)
