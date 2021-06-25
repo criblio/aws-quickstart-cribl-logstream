@@ -4,24 +4,113 @@
 ## Overview of Use Case
 This use case is to get CloudTrail logs into your system of record. We will go over some tips to help reduce the volume of these events by removing redundant or `null` values and other events that take up significant space while not giving any value. In this blog post [Helping Threat Hunters While Staying Compliant: Categorizing and Scoring AWS CloudTrail Events in Real-Time](https://cribl.io/blog/threat-hunting-while-staying-compliant-categorizing-and-scoring-aws-cloudtrail-events-in-real-time/), we will go into detail on how to help reduce the amount of redundant and high volume, low value data from CloudTrail logs.
 
-
-### AWS Setup Overview
-We are going to create the following components in your AWS Environment:
-
-<img src="https://quickstart-cribl-logstream.s3.amazonaws.com/architecture/design/cloudtrail_cf_template_design.png" width="400" height="400">
-
+![Pull from S3](/architecture/Cribl_LS_S3_SQS_Collection.png) 
 #### Pull Deployment
 - CloudTrail enabled and sending to S3 Bucket
     - IAM Roles that can write from CloudTrail to S3 Bucket
 - SQS for S3 triggers
     - Create and enable SQS event when objects are created in S3 bucket
 
-## Step 1 - Enable CloudTrail Audit Logs 
+## Cribl LogStream to Collect from S3 (Pull)
 
-This quick link will enable a new CloudTrail (cribl-cloudtrail-sqs-s3-Trail-<uniqueID>), create an S3 bucket where the CloudTrail events will land. An SQS will also be created with the appropriate policy to allow events from S3 to be sent into this SQS: https://console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/quickcreate?templateUrl=https%3A%2F%2Fquickstart-cribl-logstream.s3.amazonaws.com%2Fcftemplates%2Fcloudtrail-s3%252Bsqs.yaml&stackName=cribl-cloudtrail-sqs-s3&param_CloudWatchLogsRetentionInDays=7&param_ExternalTrailBucket=&param_LogFilePrefix=&param_ParentAlertStack=&param_PermissionsBoundary=&param_S3DataEvents=true&param_SQS=cribl-sqs-cloudtrail 
 
-## Step 2 - Setup Cribl LogStream to Collect from S3 (Pull)
+These steps will setup Cribl LogStream to collect the CloudTrail logs from the S3 bucket created by the CloudFormation template triggered above. 
 
-![Pull from S3](https://quickstart-cribl-logstream.s3.amazonaws.com/architecture/Cribl_LS_S3_SQS_Collection.png) 
+![Sources](/screenshots/s3bucket/vpcflow/sqs-s3-cls-01.png)
 
-- [Click Here to setup SQS and S3](sqs_s3_pull/sqs_s3_pull_cloudtrail.md) 
+Click on `Configure`
+
+![Configure](/screenshots/s3bucket/s3dest/s3-dest-02.png)
+
+Click on `Sources`
+
+![Sources](/screenshots/s3bucket/vpcflow/sqs-s3-cls-01.png)
+
+Click on `Amazon S3`
+
+![Sources](/screenshots/s3bucket/vpcflow/sqs-s3-cls-02.png)
+
+Click on `Add New`
+
+![Sources](/screenshots/s3bucket/vpcflow/sqs-s3-cls-03.png)
+
+Name the input, for example `cloudtrail`
+- Input the name of the `SQS` queue that is triggered by the S3 bucket containing the VPC Flow Logs (e.g. `cribl-cloudtrail-sqs-s3-<unique_id>`)
+- Input the region these components are found located (e.g. US East 2 Ohio)
+
+Click `Save`
+
+![Sources](/screenshots/s3bucket/cloudtrail/sqs-s3-cls-ct-01.png)
+
+Click `Commit`
+
+![Sources](/screenshots/s3bucket/cloudtrail/sqs-s3-cls-ct-02.png)
+
+Comment on the changes and then click `Commit`.
+
+![Sources](/screenshots/s3bucket/cloudtrail/sqs-s3-cls-ct-03.png)
+
+Click `Deploy`
+
+![Sources](/screenshots/s3bucket/cloudtrail/sqs-s3-cls-ct-04.png)
+
+Click `Yes`
+
+![Sources](/screenshots/s3bucket/cloudtrail/sqs-s3-cls-ct-05.png)
+
+Test to see if any data is flowing into your input by clicking the `Live` button. This takes time depending on how much data is flowing through your input.
+
+![Sources](/screenshots/s3bucket/cloudtrail/sqs-s3-cls-ct-06.png)
+
+You can also click on `Save as Sample File` to save the caputed data for testing and validating the data in the `Pipeline` section.
+
+Download the VPC Flow Logs to Metrics [Cribl Content Pack](/cribl/packs/aws_cloudtrail.crbl) 
+
+Click on `Packs`
+
+![Sources](/screenshots/s3bucket/vpcflow/sqs-s3-cls-11.png)
+
+Click on `Add New`
+    - Then click on `Import from File`
+
+![Sources](/screenshots/s3bucket/vpcflow/sqs-s3-cls-12.png)
+
+Select the content pack `aws_cloudtrail.crbl`.
+
+![Sources](/screenshots/s3bucket/cloudtrail/sqs-s3-cls-ct-07.png)
+
+Name the new pack `aws_cloudtrail`.
+
+![Sources](/screenshots/s3bucket/cloudtrail/sqs-s3-cls-ct-08.png)
+
+Click on `Commit` 
+
+![Sources](/screenshots/s3bucket/cloudtrail/sqs-s3-cls-ct-09.png)
+
+Validate and comment on the changes, then click `Commit`
+
+![Sources](/screenshots/s3bucket/cloudtrail/sqs-s3-cls-ct-10.png)
+
+Click on `Deploy`
+
+![Sources](/screenshots/s3bucket/cloudtrail/sqs-s3-cls-ct-11.png)
+
+Click on `Yes`
+
+![Sources](/screenshots/s3bucket/cloudtrail/sqs-s3-cls-ct-12.png)
+
+Your content pack should be installed. Click on `Configure` to see the components that make up the content pack.
+
+![Sources](/screenshots/s3bucket/cloudtrail/sqs-s3-cls-ct-13.png)
+
+Click on `Pipeline` within the pack.
+
+![Sources](/screenshots/s3bucket/cloudtrail/sqs-s3-cls-ct-14.png)
+
+Click on  `AWS_CloudTrail`. Here you can see all the functiosn created for you to parse and send CloudTrail data to your destination. 
+
+![Sources](/screenshots/s3bucket/cloudtrail/sqs-s3-cls-ct-15.png)
+
+Click on `Routes` and add a route. Click `Save`, `Commit` and then `Deploy` your changes. In this example, we are going to be sending the data to Splunk.
+
+![Sources](/screenshots/s3bucket/cloudtrail/sqs-s3-cls-ct-16.png)
