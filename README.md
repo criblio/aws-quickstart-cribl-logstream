@@ -116,17 +116,6 @@ This Quick Start assumes familiarity with Amazon EC2, S3, IAM, Kinesis and Cloud
 ### AWS Account
 If you don't already have an AWS Account, create one at https://aws.amazon.com and follow the instructions.
 
-## Deployment options
-This Quick Start provides three options:
-- [Cribl LogStream Distributed](https://aws.amazon.com/marketplace/pp/B08CRVQWCJ?qid=1604503537874&sr=0-2&ref_=srh_res_product_title) 
-   - This will be the deployment used in this Quick Start. It will deploy one master node and however many worker nodes you want to use. It's recommended you deploy at least 2 worker nodes.  
-
-- [Cribl LogStream Single Instance](https://aws.amazon.com/marketplace/pp/B08BRGFJK1?qid=1604503537874&sr=0-1&ref_=srh_res_product_title) 
-   - This will deploy a single EC2 instance and configure the AWS services and resources listed above. We will be using this deployment for our quick start guide. This is great for development or testing purposes. 
-
-- [Cribl.Cloud](https://cribl.cloud)
-   - This deployment will run in Cribl's AWS Account but allow you to collect data from your data sources. This stack is allotted 500GB/day of ingest and 500GB/day to send to your destinations. 
-
 ## Deployment Steps
 1. Sign into your AWS Account.
 
@@ -143,7 +132,18 @@ This Quick Start provides three options:
 7. Log into Cribl LogStream with the credential supplied in the "Outputs" tab on your CloudFormation stack.
 
 > Here is the [step-by-step](steps/cloudformation.md) instructions for the cloudformation template deployment.
-   
+
+## Deployment options
+This Quick Start provides three options:
+- [Cribl LogStream Distributed](https://aws.amazon.com/marketplace/pp/B08CRVQWCJ?qid=1604503537874&sr=0-2&ref_=srh_res_product_title) 
+   - This will be the deployment used in this Quick Start. It will deploy one master node and however many worker nodes you want to use. It's recommended you deploy at least 2 worker nodes.  
+
+- [Cribl LogStream Single Instance](https://aws.amazon.com/marketplace/pp/B08BRGFJK1?qid=1604503537874&sr=0-1&ref_=srh_res_product_title) 
+   - This will deploy a single EC2 instance and configure the AWS services and resources listed above. We will be using this deployment for our quick start guide. This is great for development or testing purposes. 
+
+- [Cribl.Cloud](https://cribl.cloud)
+   - This deployment will run in Cribl's AWS Account but allow you to collect data from your data sources. This stack is allotted 500GB/day of ingest and 500GB/day to send to your destinations.    
+
 ## Log into Cribl LogStream
 
 Navigate to http://<cribl_logstream_ip>:9000 and log in using admin / <ec2_instance_id> . Once you have logged into your instance take a look around and we can start diving into the use cases.
